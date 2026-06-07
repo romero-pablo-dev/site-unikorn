@@ -1,0 +1,45 @@
+Bonjour Claude. Tu reprends le développement de mon site web "Unikorn Place".
+
+# LE PROJET
+Site vitrine d'une société de coworking premium à Paris 11e (fondateur : Oscar Romero).
+Stack : Vite + React 18, React Router, Tailwind, GSAP + Lenis (animation 3D scrollytelling sur l'accueil).
+Je viens de cloner le projet depuis GitHub dans ce dossier. C'est un Mac.
+
+# DÉMARRAGE
+- `npm install` puis `npm run dev` pour lancer en local (http://localhost:5173).
+- `npm run build` génère le dossier `dist` que je glisse sur Netlify pour déployer.
+- Sur Mac, npm marche directement (pas besoin du fichier .bat qui était un contournement Windows).
+
+# ARCHITECTURE
+- src/components/Sections.jsx → Navbar, Hero (accueil), et les sections de la landing.
+- src/components/CanvasScrollytelling.jsx → animation 3D (480 frames JPG dans public/frames).
+- src/pages/ → LandingPage, AllSpacesPage (grille espaces), CoworkingSpacePage (fiche espace),
+  NosOffrePage, BienEtrePage, OnzieneDistrictPage, UnikornPlacePage, LegalPage.
+- src/data/coworkingSpaces.js → données des 12 espaces (prix, photos, capacités).
+- L'accueil a DEUX rendus : desktop (3D scrollytelling) et mobile (layout natif simple).
+  La détection se fait dans LandingPage.jsx via window.innerWidth < 768.
+
+# RÈGLE IMPORTANTE
+Le rendu desktop (PC) est validé et ne doit PAS changer. Toute amélioration mobile doit être
+isolée : via la classe `.mobile-landing`, des media queries `@media (max-width: 767px)` dans
+src/index.css, ou la prop `mobile` du composant Hero. Vérifie toujours que le PC n'est pas impacté.
+
+# CE QUI A DÉJÀ ÉTÉ FAIT
+- Refonte mobile premium : hero plein écran, sections compactées, menu corrigé (via React portal),
+  anti-scroll horizontal (overflow-x: clip), finitions iOS (anti-zoom champs, safe-areas).
+- Formulaire "Réserver une visite" branché sur Netlify Forms (BookingModal.jsx) → notifications
+  vers unikornplace@gmail.com à configurer dans Netlify.
+- Mentions légales : dirigeant = Oscar Romero, contact = unikornplace@gmail.com.
+- Photo du fondateur à jour (public/photos/oscar-romero.jpg).
+- Ancien tracker analytics "Taap.it" retiré.
+
+# RESTE À FAIRE (prod)
+1. Analytics gratuite (Umami cloud.umami.is ou Cloudflare Web Analytics) — poser le snippet + CSP.
+2. Pré-rendu SEO : les méta par page ne sont pas dans le HTML servi (SPA). Mettre un prerender Vite
+   sans casser le canvas 3D. Chantier à tester soigneusement.
+3. Passe accessibilité : contrastes, zones tactiles 44px, hiérarchie des titres, width/height images.
+4. Domaine définitif (probablement unikornplace.com) : mettre à jour le canonical dans
+   src/components/SEO.jsx, sitemap.xml, robots.txt, et le rattacher sur Netlify.
+
+Commence par lancer `npm install` puis `npm run dev`, confirme que le site tourne, et dis-moi
+sur quoi tu veux qu'on avance.
